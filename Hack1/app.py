@@ -57,6 +57,7 @@ def process_file(doc_type, file_name):
 
     # Extract details based on doc_type
     extracted_text = extract_details(file_path)
+
     return render_template("edit.html", details=extracted_text, file_name=file_name, doc_type=doc_type)
 
 def process_validation(doc_type, extracted_text):
@@ -70,9 +71,11 @@ def process_validation(doc_type, extracted_text):
     
     validation_func = validation_functions.get(doc_type)
     feedback = validation_func(extracted_text) if validation_func else "Invalid document type"
+
+    feedback = feedback.split("<br>")
     
     # Format the feedback to replace newlines with <br> for proper HTML rendering
-    return format_feedback(feedback)
+    return feedback
 
 def format_feedback(feedback_text):
     """
