@@ -1,6 +1,10 @@
 import google.generativeai as genai
 from html import escape
 import json
+import os
+import pypdf
+
+document_dir = r"C:\Users\Anirudh\Desktop\IITM\INTERN\document_scan"
 
 def organise_details(text):
     """
@@ -44,12 +48,27 @@ def format_response(response_text):
     formatted_response = escape(response_text).replace('\\"', '"').replace("\\'", "'")
     return formatted_response
 
-
-
-
 # Validation Functions
 
 def validate_gst_certificate(extracted_text):
+
+
+    gst_dir = r"C:\Users\Anirudh\Desktop\IITM\INTERN\document_scan\gst_certificate.pdf"
+
+    try:
+        # Initialize PdfReader with the file path
+        pdf_reader = pypdf.PdfReader(gst_dir)
+
+        # Extract text from all pages
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    
+    except FileNotFoundError:
+        print("The file was not found.")
+    except Exception as e:
+        print(f"Error reading the PDF: {e}")
+
     """
     Validates a GST Certificate using Gemini LLM for compliance checks.
     """
@@ -58,12 +77,9 @@ def validate_gst_certificate(extracted_text):
 
     {extracted_text}
 
-    Tasks (Provide a structured response with appropriate sections):
-    - **GSTIN Verification:** Validate the correctness of the GSTIN number format.
-    - **Business Details Check:** Verify registered business name, address, and legal status.
-    - **Registration Date and Type:** Ensure the registration date and business type match records.
-    - **Tax Category Verification:** Confirm applicable tax categories (CGST, SGST, IGST).
-    - **Compliance Issues:** Highlight any missing or incorrect information.
+    refer to the rules and regulations mentioned in this text
+
+    {text}
     
     Format the response in sections, using bullet points and line breaks where needed. and limit the output to 100 words
     """
