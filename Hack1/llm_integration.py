@@ -1,4 +1,14 @@
 import google.generativeai as genai
+from html import escape
+import json
+
+def organise_details(text):
+    """
+    This function organizes the extracted text into a dictionary.
+    """
+    organized_details = text
+    return organized_details
+
 def generate_llm_response(prompt):
     """
     Generates a response using Gemini LLM based on the provided prompt.
@@ -30,14 +40,9 @@ def format_response(response_text):
     Formats the LLM-generated response for better readability by ensuring newlines are properly handled
     and markdown-like formatting is respected.
     """
-    # Replace escaped newlines '\n' with actual newlines for proper line breaks
-    response_text = response_text.replace("\\n", "\n")  # Handling escaped newlines
-    response_text = response_text.replace("\\\\", "\\")  # Handling escaped backslashes
-
-    # Replace actual newlines '\n' with <br> tags for HTML rendering
-    response_text = response_text.replace("\n", "<br>")
-
-    return response_text
+    # formatted_response = escape(response_text).replace("\n", "<br>").replace("**", "<b>").replace("*", "")
+    formatted_response = escape(response_text).replace('\\"', '"').replace("\\'", "'")
+    return formatted_response
 
 
 
@@ -60,7 +65,7 @@ def validate_gst_certificate(extracted_text):
     - **Tax Category Verification:** Confirm applicable tax categories (CGST, SGST, IGST).
     - **Compliance Issues:** Highlight any missing or incorrect information.
     
-    Format the response in sections, using bullet points and line breaks where needed.
+    Format the response in sections, using bullet points and line breaks where needed. and limit the output to 100 words
     """
     response = generate_llm_response(prompt)
     return format_response(response)
@@ -83,7 +88,7 @@ def validate_invoice_data(extracted_text):
     - **Tax Calculations:** Confirm the accuracy of tax calculations.
     - **Compliance Check:** Identify missing or incorrect data and suggest corrections.
 
-    Format the response in structured sections using bullet points and line breaks.
+    Format the response in structured sections using bullet points and line breaks. and limit the output to 100 words
     """
     response = generate_llm_response(prompt)
     return format_response(response)
@@ -104,7 +109,7 @@ def validate_pan_card(extracted_text):
     - **Father's Name Check:** Ensure father's name is present and correctly spelled.
     - **Document Integrity:** Check for any signs of tampering or incomplete data.
 
-    Format the response clearly using bullet points and line breaks.
+    Format the response clearly using bullet points and line breaks. and limit the output to 100 words
     """
     response = generate_llm_response(prompt)
     return format_response(response)
@@ -126,7 +131,7 @@ def validate_bol(extracted_text):
     - **Port and Delivery Information:** Check ports of loading, discharge, and delivery addresses.
     - **Document Integrity:** Identify missing or incorrect data and recommend corrections.
 
-    Format the response using bullet points and clear sections.
+    Format the response using bullet points and clear sections. and limit the output to 100 words
     """
     response = generate_llm_response(prompt)
     return format_response(response)
@@ -149,7 +154,7 @@ def validate_export_declaration(extracted_text):
     - **Customs Declarations:** Validate declarations against international trade compliance requirements.
     - **Compliance Check:** Highlight missing or incorrect data and suggest corrections.
 
-    Format the response using structured sections, bullet points, and line breaks.
+    Format the response using structured sections, bullet points, and line breaks. and limit the output to 100 words
     """
     response = generate_llm_response(prompt)
     return format_response(response)
