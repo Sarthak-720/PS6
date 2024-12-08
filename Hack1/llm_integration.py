@@ -53,7 +53,7 @@ def format_response(response_text):
 def validate_gst_certificate(extracted_text):
 
 
-    gst_dir = r"C:\Users\Anirudh\Desktop\IITM\INTERN\document_scan\gst_certificate.pdf"
+    gst_dir = r"C:\Hack1\ref_doc\gst_certificate.pdf"
 
     try:
         # Initialize PdfReader with the file path
@@ -88,6 +88,24 @@ def validate_gst_certificate(extracted_text):
 
 
 def validate_invoice_data(extracted_text):
+    
+    inv_dir = r"C:\Hack1\ref_doc\invoice.pdf"
+
+    try:
+        # Initialize PdfReader with the file path
+        pdf_reader = pypdf.PdfReader(inv_dir)
+
+        # Extract text from all pages
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    
+    except FileNotFoundError:
+        print("The file was not found.")
+    except Exception as e:
+        print(f"Error reading the PDF: {e}")
+
+    
     """
     Validates invoice details using Gemini LLM for proper customs and tax compliance.
     """
@@ -95,15 +113,11 @@ def validate_invoice_data(extracted_text):
     You are a customs and tax compliance expert. Review the following invoice data for accuracy:
 
     {extracted_text}
+    
+    refer to the rules and regulations mentioned in this text
 
-    Tasks (Provide a structured response with appropriate sections):
-    - **Invoice Number and Date:** Ensure the presence of an invoice number and date.
-    - **Buyer and Seller Details:** Verify names, addresses, and tax registration numbers.
-    - **Product Details:** Validate product names, quantities, unit prices, and tax rates.
-    - **HSN/SAC Code Matching:** Check HSN/SAC codes for correct classification.
-    - **Tax Calculations:** Confirm the accuracy of tax calculations.
-    - **Compliance Check:** Identify missing or incorrect data and suggest corrections.
-
+    {text}
+    
     Format the response in structured sections using bullet points and line breaks. and limit the output to 100 words
     """
     response = generate_llm_response(prompt)
@@ -111,6 +125,22 @@ def validate_invoice_data(extracted_text):
 
 
 def validate_pan_card(extracted_text):
+    pan_dir = r"C:\Hack1\ref_doc\pan_card.pdf"
+
+    try:
+        # Initialize PdfReader with the file path
+        pdf_reader = pypdf.PdfReader(pan_dir)
+
+        # Extract text from all pages
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    
+    except FileNotFoundError:
+        print("The file was not found.")
+    except Exception as e:
+        print(f"Error reading the PDF: {e}")
+    
     """
     Validates PAN card details for correctness using Gemini LLM.
     """
@@ -119,11 +149,9 @@ def validate_pan_card(extracted_text):
 
     {extracted_text}
 
-    Tasks (Provide a structured response with appropriate sections):
-    - **PAN Format Check:** Ensure the PAN follows the standard alphanumeric format (AAAAA1234A).
-    - **Name and DOB Verification:** Validate the person's name and date of birth against known formats.
-    - **Father's Name Check:** Ensure father's name is present and correctly spelled.
-    - **Document Integrity:** Check for any signs of tampering or incomplete data.
+    refer to the rules and regulations mentioned in this text
+
+    {text}
 
     Format the response clearly using bullet points and line breaks. and limit the output to 100 words
     """
@@ -132,6 +160,22 @@ def validate_pan_card(extracted_text):
 
 
 def validate_bol(extracted_text):
+    bol_dir = r"C:\Hack1\ref_doc\bol.pdf"
+
+    try:
+        # Initialize PdfReader with the file path
+        pdf_reader = pypdf.PdfReader(bol_dir)
+
+        # Extract text from all pages
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    
+    except FileNotFoundError:
+        print("The file was not found.")
+    except Exception as e:
+        print(f"Error reading the PDF: {e}")
+    
     """
     Validates Bill of Lading data for shipping and customs compliance.
     """
@@ -140,12 +184,9 @@ def validate_bol(extracted_text):
 
     {extracted_text}
 
-    Tasks (Provide a structured response with appropriate sections):
-    - **Shipper and Consignee Details:** Verify names, addresses, and contact information.
-    - **Cargo Description:** Ensure cargo details, weight, and dimensions match industry standards.
-    - **Container Number and Seal Details:** Confirm that the container numbers and seal details are valid.
-    - **Port and Delivery Information:** Check ports of loading, discharge, and delivery addresses.
-    - **Document Integrity:** Identify missing or incorrect data and recommend corrections.
+    refer to the rules and regulations mentioned in this text
+
+    {text}
 
     Format the response using bullet points and clear sections. and limit the output to 100 words
     """
@@ -154,6 +195,22 @@ def validate_bol(extracted_text):
 
 
 def validate_export_declaration(extracted_text):
+    exp_dir = r"C:\Hack1\ref_doc\export_declaration.pdf"
+
+    try:
+        # Initialize PdfReader with the file path
+        pdf_reader = pypdf.PdfReader(exp_dir)
+
+        # Extract text from all pages
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    
+    except FileNotFoundError:
+        print("The file was not found.")
+    except Exception as e:
+        print(f"Error reading the PDF: {e}")
+    
     """
     Validates Export Declaration details for international shipping compliance.
     """
@@ -162,13 +219,9 @@ def validate_export_declaration(extracted_text):
 
     {extracted_text}
 
-    Tasks (Provide a structured response with appropriate sections):
-    - **Exporter and Importer Details:** Validate exporter and importer names, addresses, and contact information.
-    - **Export License Verification:** Ensure the export license number is correct and valid.
-    - **Product Description:** Check product descriptions, HS codes, and export quantities.
-    - **Shipping and Delivery Details:** Confirm accurate shipping terms, delivery addresses, and ports of entry.
-    - **Customs Declarations:** Validate declarations against international trade compliance requirements.
-    - **Compliance Check:** Highlight missing or incorrect data and suggest corrections.
+    refer to the rules and regulations mentioned in this text
+
+    {text}
 
     Format the response using structured sections, bullet points, and line breaks. and limit the output to 100 words
     """
